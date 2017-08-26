@@ -7,6 +7,8 @@
 #include "copyFileDlg.h"
 #include "afxdialogex.h"
 
+
+#include <direct.h>
 #include <string>
 #include <direct.h>
 #include <fstream>
@@ -113,6 +115,9 @@ BOOL CcopyFileDlg::OnInitDialog()
 
 	// TODO: 在此添加额外的初始化代码
 	UpdateData();
+	char buff[256];
+	_getcwd(buff, 255);
+	m_source=buff;
 	m_dest = "D:\\AutoMachine";
 	UpdateData(false);
 
@@ -293,8 +298,9 @@ int CcopyFileDlg::copyDir(char * source, char * dest)
 			CString s1 = tempSourcePath;
 			CString s2 = tempDestPath;
 			m_show.AddString(s1 + _T("--->>>") + s2);
-			//UpdateData();			
+			//UpdateData();		
 			UpdateData();
+		//	Sleep(2);
 		}
 	} while (!_findnext(handle, &finddata));
 	_findclose(handle);

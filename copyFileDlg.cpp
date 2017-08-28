@@ -69,7 +69,7 @@ void CcopyFileDlg::DoDataExchange(CDataExchange* pDX)
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Text(pDX, IDC_EDIT_DEST, m_dest);
 	DDX_Text(pDX, IDC_EDIT_SOURCE, m_source);
-	DDX_Control(pDX, IDC_LIST_SHOW, m_show);
+	//  DDX_Control(pDX, IDC_LIST_SHOW, m_show);
 }
 
 BEGIN_MESSAGE_MAP(CcopyFileDlg, CDialogEx)
@@ -262,17 +262,18 @@ int CcopyFileDlg::copyDir(char * source, char * dest)
 	}
 	do
 	{
-		if (finddata.attrib == _A_SUBDIR)  //是文件夹,递归调用复制文件夹
+		if (finddata.attrib == _A_SUBDIR || finddata.attrib == 48)  //是文件夹,递归调用复制文件夹
 		{
-			if (strcmp(finddata.name, ".") == 0 || strcmp(finddata.name, "..") == 0 || strcmp(finddata.name, "HWIO") == 0)
+			if (strcmp(finddata.name, ".") == 0 || strcmp(finddata.name, "..") == 0 || strcmp(finddata.name, "HWIO") == 0 || strcmp(finddata.name, "copyFile") == 0)
 			{
 				//printf("skip %s\n", finddata.name);
 				continue;
 			}
-			if (strcmp(finddata.name, "Config") == 0) //Config
+			if (strcmp(finddata.name, "Config")== 0) //Config
 			{
 				if (MessageBox("是否需要复制Config文件夹", NULL, MB_YESNO) == IDNO)
 				{
+					MessageBox("config");
 					continue;
 				}
 			}
@@ -297,7 +298,9 @@ int CcopyFileDlg::copyDir(char * source, char * dest)
 			CopyFile((LPCSTR)tempSourcePath, (LPCSTR)tempDestPath, false);
 			CString s1 = tempSourcePath;
 			CString s2 = tempDestPath;
-			m_show.AddString(s1 + _T("--->>>") + s2);
+			//m_show.AddString(s1 + _T("--->>>") + s2);
+			SetDlgItemText(IDC_SHOWSOUR, s1);
+			SetDlgItemText(IDC_SHOWDEST, s2);
 			//UpdateData();		
 			UpdateData();
 		//	Sleep(2);
@@ -312,7 +315,6 @@ void CcopyFileDlg::OnBnClickedButtonCopy()
 {
 	// TODO: 在此添加控件通知处理程序代码
 	GetDlgItem(IDC_BUTTON_COPY)->EnableWindow(FALSE);
-	m_show.ResetContent();
 	UpdateData();
 	char *t1 = m_source.GetBuffer(0);
 	char *t2 = m_dest.GetBuffer(m_dest.GetLength());

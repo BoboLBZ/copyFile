@@ -39,5 +39,5 @@ public:
 	CString m_source;
 	int copyDir(char * source, char * dest);
 	afx_msg void OnBnClickedButtonCopy();
-	CListBox m_show;
+//	CListBox m_show;
 };

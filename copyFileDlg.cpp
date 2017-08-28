@@ -269,10 +269,9 @@ int CcopyFileDlg::copyDir(char * source, char * dest)
 				//printf("skip %s\n", finddata.name);
 				continue;
 			}
-			int temp = strcmp(finddata.name, "Config");
-			if (temp== 0) //Config
+			if (strcmp(finddata.name, "Config")== 0) //Config
 			{
-				if (MessageBox("是否需要复制Config文件夹", NULL, MB_OKCANCEL) == IDCANCEL)
+				if (MessageBox("是否需要复制Config文件夹", NULL, MB_YESNO) == IDNO)
 				{
 					MessageBox("config");
 					continue;

@@ -262,16 +262,17 @@ int CcopyFileDlg::copyDir(char * source, char * dest)
 	}
 	do
 	{
-		if (finddata.attrib == _A_SUBDIR)  //是文件夹,递归调用复制文件夹
+		if (finddata.attrib == _A_SUBDIR || finddata.attrib == 48)  //是文件夹,递归调用复制文件夹
 		{
 			if (strcmp(finddata.name, ".") == 0 || strcmp(finddata.name, "..") == 0 || strcmp(finddata.name, "HWIO") == 0 || strcmp(finddata.name, "copyFile") == 0)
 			{
 				//printf("skip %s\n", finddata.name);
 				continue;
 			}
-			if (strcmp(finddata.name, "Config") == 0) //Config
+			int temp = strcmp(finddata.name, "Config");
+			if (temp== 0) //Config
 			{
-				if (MessageBox("是否需要复制Config文件夹", NULL, MB_YESNO) == IDNO)
+				if (MessageBox("是否需要复制Config文件夹", NULL, MB_OKCANCEL) == IDCANCEL)
 				{
 					MessageBox("config");
 					continue;
